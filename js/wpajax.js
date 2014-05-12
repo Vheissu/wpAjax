@@ -65,33 +65,40 @@
     $(window).on("statechange", function() {
         var State = History.getState();
 
-        log("HTML5 History statechange event trigger with URL: "+State.url);
+        log("Event.statechange: HTML5 History statechange event trigger with URL: "+State.url);
 
         // Load the page if we're not already on it
         if (State.url !== wpAjax.getCurrentUrl()) {
-            log("Calling the wpAjax.loadPage function with State.url as its parameter");
+            log("Event.statechange: Calling the wpAjax.loadPage function with State.url as its parameter");
             wpAjax.loadPage(State.url);
         } else {
-            log("AJAX request not performed as user is already on the requested page");
+            log("Event.statechange: AJAX request not performed as user is already on the requested page");
         }
     });
 
     // Allows us to configure wpAjax
     wpAjax.configure = function(options) {
+        log("configure: Setting options for Wpajax");
         $.extend(settings, options);
         return this;
     };
 
+    // Returns whether or not we are currently in the middle of an AJAX request
+    wpAjax.requestStatus = function() {
+        log("requestStatus: Return current loading state");
+        return isLoading;
+    };
+
     // Helper function for checking the current URL
     wpAjax.getCurrentUrl = function() {
-        log("Method wpAjax.getCurrentUrl called");
+        log("getCurrentUrl: Getting the current browser address URL");
         return window.location.href;
     };
 
     // Trigger a page load
     wpAjax.trigger = function(url) {
-        log("Method wpAjax.trigger called which will call History.pushState and trigger a statechange");
-        History.pushState({}, wpAjax.getTitle(), url);
+        log("trigger:  Calling History.pushState which will trigger a statechange");
+        History.pushState({}, wpAjax.getTitle(url), url);
     };
 
     // Load page function
@@ -130,13 +137,13 @@
 
     // Fade out the content area
     wpAjax.fadeOutContent = function() {
-        log("fadeOutContent method called");
+        log("fadeOutContent: Animating content element out");
         $content.animate({opacity:0}, 800);
     };
 
     // Fade in the content area
     wpAjax.fadeInContent = function() {
-        log("fadeInContent method called");
+        log("fadeInContent: Animating content element in");
         $content.animate({opacity:1}, 800);
     };
 
@@ -146,10 +153,11 @@
     wpAjax.getTitle = function(url) {
         var title = "";
 
-        log("wpAjax.getTitle method called");
+        log("getTitle: Calling wpAjax.doRequest now to get the title");
 
         wpAjax.doRequest(url, function(data) {
             title = $(data).filter("title").text();
+            log("getTitle: doRequest AJAX call successful. Title returned: "+title+" ");
         });
 
         return title;
@@ -159,6 +167,8 @@
     // Leaves checking for other requests and validity to other functions
     wpAjax.doRequest = function(url, success, error) {
 
+        log("doRequest: About to perform an AJAX call");
+
         // Do the fetching and stuff...
         $.ajax({
             url: url,
@@ -167,11 +177,11 @@
             type: 'GET',
             dataType: 'html',
             success: function(response) {
-                log("AJAX request called and successful");
+                log("doRequest: AJAX success callback");
                 success(response);
             },
             error: function() {
-                log("AJAX request called and failed");
+                log("doRequest: AJAX error callback");
                 if ($.isFunction(error)) {
                     error();
                 }
@@ -189,7 +199,7 @@
         // AJAX request is finished
         isLoading = false;
 
-        log("Processing the data returned by the successful AJAX call");
+        log("processRequest: Processing the data returned by a successful AJAX call");
 
         // Do we have content?
         if (_content && _content.length) {
@@ -197,25 +207,27 @@
              // AJAX load finished fire a loaded event with the data
              $(document).trigger("wpAjax.loaded", [data, url]);
 
-            log("Content found from the AJAX request, determining what to do with it");
+            log("processRequest: Content found from the AJAX request, determining what to do with it");
 
             // We want to wait for images to load before proceeding
             if (waitForImages) {
 
+                log("processRequest Wait for images option is enabled, finding images");
+
                 // We have images to preload
                 if ($(_content).find("img").length) {
 
-                    log("Waiting for all images in the returned data to preload");
+                    log("processRequest: We found images. Waiting for all images in the returned data to preload");
 
                     // Populate the content element
                     wpAjax.populateContent(_content, function(contentEl) {
 
-                        log("Populated the content element");
+                        log("processRequest: Populated the content element with content, about to preload iamges");
 
                         // Wait for any newly populated images to load
                         contentEl.imagesLoaded().then(function() {
 
-                            log("All images in AJAX loaded content have preloaded");
+                            log("processRequest: All images in AJAX loaded content have preloaded");
 
                             // Replace body classes with those of the loaded body classes
                             $body.attr("class", /body([^>]*)class=(["']+)([^"']*)(["']+)/gi.exec(data.substring(data.indexOf("<body"), data.indexOf("</body>") + 7))[3]);
@@ -234,7 +246,7 @@
                 // Populate the content element
                 wpAjax.populateContent(_content, function(contentEl) {
 
-                    log("Requested AJAX content has been added to the content element and classes changed");
+                    log("processRequest: Requested AJAX content has been added to the content element and classes changed");
 
                     // Replace body classes with those of the loaded body classes
                     $body.attr("class", /body([^>]*)class=(["']+)([^"']*)(["']+)/gi.exec(data.substring(data.indexOf("<body"), data.indexOf("</body>") + 7))[3]);
@@ -249,7 +261,7 @@
             wpAjax.fadeInContent();
 
         } else {
-            log("Returned AJAX content is empty. Could be a problem server-side.");
+            log("processRequest: Returned AJAX content is empty. Could be a problem server-side.");
         }
     };
 
