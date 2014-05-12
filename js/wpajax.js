@@ -107,6 +107,21 @@
         History.pushState({}, wpAjax.getTitle(url), url);
     };
 
+    // Have we reached our page limit
+    wpAjax.pageLimitReached = function() {
+        return (wpvars.max == wpvars.paged);
+    }
+
+    // What is the current page we are on
+    wpAjax.getCurrentPageNumber = function() {
+        return wpvars.paged;
+    }
+
+    // Get the maximum number of pages in our results
+    wpAjax.getMaxPages = function() {
+        return wpvars.max;
+    }
+
     // Load page function
     wpAjax.loadPage = function(url) {
 
