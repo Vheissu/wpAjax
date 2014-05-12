@@ -268,11 +268,14 @@
     // Populates the appropriate content DIV with our
     // load content from the AJAX request (if successful)
     wpAjax.populateContent = function(content, callback) {
+        log("populateContent: About to populate the content element with returned HTML");
+
         // Populate the content element
         $content.html(content);
 
         // If we have a callback function
         if ($.isFunction(callback)) {
+            log("populateContent: We've added in the content, calling the callback function with the element as an argument");
             callback($content);
         }
     };
