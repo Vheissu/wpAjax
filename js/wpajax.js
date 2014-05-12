@@ -215,6 +215,9 @@
         // Do we have content?
         if (_content && _content.length) {
 
+            // Get latest version of WP Vars object
+            $wpvars.html(_wpvars);
+
              // AJAX load finished fire a loaded event with the data
              $(document).trigger("wpAjax.loaded", [data, url]);
 
