@@ -1,3 +1,12 @@
+/**
+ * Copyright (c) 2014 and beyond Dwayne Charrington
+ * Email: dwaynecharrington (at) gmail (dot) com
+ * Twitter: abolitionof_
+ * Licensed under MIT
+ * @author Dwayne Charrington
+ * @version 1.0
+ */
+
 ;(function($, window, document, History, undefined) {
 
     // Events trigger
