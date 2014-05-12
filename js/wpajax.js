@@ -19,6 +19,11 @@
     /*
         Example:
 
+        //To configure wpAjax:
+        wpAjax.configure({
+            content: "#content" // Element with our content which will be AJAX''d out
+        });
+
         // Call this from within a click event
         wpAjax.trigger("http://www.someurl.com");
 
@@ -59,6 +64,7 @@
 
     // These two elements never disappear and are always consistent
     var $body    = $("body");
+    var $wpvars = $("wpvars");
     var $content = $(o.content);
 
     // Statechange when the URL changes, we roll
@@ -199,6 +205,7 @@
     wpAjax.processRequest = function(data, url) {
         var _html      = $(data);
         var _content = _html.find(o.content).html();
+        var _wpvars = _html.find("#wpvars").html();
 
         // AJAX request is finished
         isLoading = false;
