@@ -62,7 +62,7 @@
     var $content = $(o.content);
 
     // Statechange when the URL changes, we roll
-    $(window).on("statechange", function() {
+    $(window).off("statechange").on("statechange", function() {
         var State = History.getState();
 
         log("Event.statechange: HTML5 History statechange event trigger with URL: "+State.url);
@@ -97,7 +97,7 @@
 
     // Trigger a page load
     wpAjax.trigger = function(url) {
-        log("trigger:  Calling History.pushState which will trigger a statechange");
+        log("trigger: Calling History.pushState which will trigger a statechange");
         History.pushState({}, wpAjax.getTitle(url), url);
     };
 
@@ -106,7 +106,7 @@
 
         if (isLoading == false) {
 
-            log("Method wpAjax.loadPage called and no other request taking place");
+            log("loadPage: No other request is taking place, we are good to go");
 
             // Apply a loading class to the body
             $body.addClass("loading-page");
@@ -117,6 +117,8 @@
             // Before content is loaded in, fade out the old content
             wpAjax.fadeOutContent();
 
+            log("loadPage: Loading class applied to body, loading event fired and content element faded out");
+
             // Perform our AJAX request
             wpAjax.doRequest(url, function() {
                 wpAjax.processRequest(data, url);
@@ -124,6 +126,8 @@
                 isLoading = false;
 
                 wpAjax.fadeInContent();
+
+                log("loadPage: Called doRequest and the request failed. Throwing a failed event on document");
 
                 // Trigger failed event
                 $(document).trigger("wpAjax.failed", [url]);
