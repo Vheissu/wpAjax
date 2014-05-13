@@ -89,6 +89,11 @@
         return this;
     };
 
+    // Return the configuration object
+    wpAjax.getConfiguration = function() {
+        return settings;
+    };
+
     // Returns whether or not we are currently in the middle of an AJAX request
     wpAjax.requestStatus = function() {
         log("requestStatus: Return current loading state");
@@ -283,7 +288,7 @@
                     // All content has been populated, assume we've succeeded
                     $(document).trigger("wpAjax.complete", [contentEl]);
 
-                }
+                });
             }
 
             // Fade in the content DIV now we've done what we've wanted with it
@@ -317,7 +322,7 @@
     }
 
     // Expose our method to the world
-    return wpAjax;
+    window.wpAjax = wpAjax;
 
 })(jQuery, window, document, window.History);
 
