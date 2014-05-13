@@ -110,7 +110,10 @@
     // Trigger a page load
     wpAjax.trigger = function(url) {
         log("trigger: Calling History.pushState which will trigger a statechange");
-        History.pushState({}, wpAjax.getTitle(url), url);
+
+        wpAjax.getTitle(url, function(title) {
+            History.pushState({}, title, url);
+        });
     };
 
     // Have we reached our page limit
@@ -185,7 +188,7 @@
     // Performs an AJAX request to get the page title
     // Also has the advantage of pre-fetching the page
     // for us as well.
-    wpAjax.getTitle = function(url) {
+    wpAjax.getTitle = function(url, callback) {
         var title = "";
 
         log("getTitle: Calling wpAjax.doRequest now to get the title");
@@ -193,9 +196,15 @@
         wpAjax.doRequest(url, function(data) {
             title = $(data).filter("title").text();
             log("getTitle: doRequest AJAX call successful. Title returned: "+title+" ");
-        });
 
-        return title;
+            if ($.isFunction(callback)) {
+                callback(title);
+            }
+        }, function() {
+            if ($.isFunction(callback)) {
+                callback(title);
+            }
+        });
     };
 
     // Handles performing the page load request
