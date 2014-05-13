@@ -224,9 +224,14 @@
     // Once our AJAX request is done, this function is called
     // Which allows us to process the response
     wpAjax.processRequest = function(data, url) {
-        var _html      = $(data);
-        var _content = _html.find(o.content).html();
-        var _wpvars = _html.find("#wpvars").html();
+        var _html = $(data);
+
+        if (!o.testMode) {
+            var _content = _html.find(o.content).html();
+            var _wpvars = _html.find("#wpvars").html();
+        } else {
+            var _content = _html.find("body").html();
+        }
 
         // AJAX request is finished
         isLoading = false;
@@ -236,8 +241,10 @@
         // Do we have content?
         if (_content && _content.length) {
 
-            // Get latest version of WP Vars object
-            $wpvars.html(_wpvars);
+            if (!o.testMode) {
+                // Get latest version of WP Vars object
+                $wpvars.html(_wpvars);
+            }
 
              // AJAX load finished fire a loaded event with the data
              $(document).trigger("wpAjax.loaded", [data, url]);
@@ -274,10 +281,22 @@
 
                     });
 
+                } else {
+                    // Populate the content element
+                    wpAjax.populateContent(_content, function(contentEl) {
+
+                        log("processRequest: Requested AJAX content has been added to the content element and classes changed");
+
+                        // Replace body classes with those of the loaded body classes
+                        $body.attr("class", /body([^>]*)class=(["']+)([^"']*)(["']+)/gi.exec(data.substring(data.indexOf("<body"), data.indexOf("</body>") + 7))[3]);
+
+                        // All content has been populated, assume we've succeeded
+                        $(document).trigger("wpAjax.complete", [contentEl]);
+
+                    });
                 }
 
             } else {
-
                 // Populate the content element
                 wpAjax.populateContent(_content, function(contentEl) {
 
@@ -305,8 +324,10 @@
     wpAjax.populateContent = function(content, callback) {
         log("populateContent: About to populate the content element with returned HTML");
 
-        // Populate the content element
-        $content.html(content);
+        if (!o.testMode) {
+            // Populate the content element
+            $content.html(content);
+        }
 
         // If we have a callback function
         if ($.isFunction(callback)) {
