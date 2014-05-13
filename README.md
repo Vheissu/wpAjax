@@ -3,6 +3,8 @@ wpAjax
 
 A Wordpress plugin for adding in AJAX page load support with callback events, HTML5 History API, localStorage caching, body class replacement and more.
 
-## Currently untested & not ready for use yet...
+## Tests
 
-If you are reading this, you've caught me early before I've had a chance to properly test this plugin. If you see any obvious flaws or errors, feel free to fork/fix and pull.
+I am slowly writing tests. Some components of the plugin make it hard to test everything. I am using Q-unit for testing the Javascript and the plugin seems to be working thus far.
+
+If you would like to contribute tests, I won't be mad.
