@@ -58,7 +58,7 @@
             cacheRequests: true,  // Use HTML5 localStorage to cache pages?
             cacheExpiry: 1,          // Time in hours cached items should be cached for
             waitForImages: true,   // Wait for images to load before loading a page?
-            debug: false               // Debug mode shows console messages if true
+            debug: false               // Debug mode shows console messages if true,
         },
         o = settings;
 
