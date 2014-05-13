@@ -24,10 +24,15 @@ test("Get Current URL", function() {
     equal(result, expected);
 });
 
-test("Fetch Page Title", function() {
-    var result      = wpAjax.getTitle("ajax-test.html");
-    var expected = "Valid Response";
-    equal(result, expected);
+// Page title is an asynchronous function
+asyncTest("Fetch Page Title", function() {
+    expect(1);
+
+    wpAjax.getTitle("ajax-test.html", function(response) {
+        var expected = "Valid Response";
+        equal(response, expected);
+        start();
+    });
 });
 
 asyncTest("Page Load via the doRequest method", function() {
