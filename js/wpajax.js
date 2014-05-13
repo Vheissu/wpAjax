@@ -135,16 +135,18 @@
 
             log("loadPage: No other request is taking place, we are good to go");
 
-            // Apply a loading class to the body
-            $body.addClass("loading-page");
+            if (!o.testMode) {
+                // Apply a loading class to the body
+                $body.addClass("loading-page");
 
-            // Trigger loading event
-            $(document).trigger("wpAjax.loading", [url]);
+                // Trigger loading event
+                $(document).trigger("wpAjax.loading", [url]);
 
-            // Before content is loaded in, fade out the old content
-            wpAjax.fadeOutContent();
+                // Before content is loaded in, fade out the old content
+                wpAjax.fadeOutContent();
 
-            log("loadPage: Loading class applied to body, loading event fired and content element faded out");
+                log("loadPage: Loading class applied to body, loading event fired and content element faded out");
+            }
 
             // Perform our AJAX request
             wpAjax.doRequest(url, function() {
@@ -152,12 +154,14 @@
             }, function() {
                 isLoading = false;
 
-                wpAjax.fadeInContent();
+                if (!o.testMode) {
+                    wpAjax.fadeInContent();
 
-                log("loadPage: Called doRequest and the request failed. Throwing a failed event on document");
+                    log("loadPage: Called doRequest and the request failed. Throwing a failed event on document");
 
-                // Trigger failed event
-                $(document).trigger("wpAjax.failed", [url]);
+                    // Trigger failed event
+                    $(document).trigger("wpAjax.failed", [url]);
+                }
             });
 
         } else {
@@ -207,14 +211,14 @@
             cacheTTL: o.cacheExpiry,
             type: 'GET',
             dataType: 'html',
-            success: function(response) {
+            success: function(response, textStatus, jqXHR) {
                 log("doRequest: AJAX success callback");
-                success(response);
+                success(response, textStatus, jqXHR);
             },
-            error: function() {
+            error: function(jqXHR, textStatus, errorThrown) {
                 log("doRequest: AJAX error callback");
                 if ($.isFunction(error)) {
-                    error();
+                    error(jqXHR, textStatus, errorThrown);
                 }
             }
         });
