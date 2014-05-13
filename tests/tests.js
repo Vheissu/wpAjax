@@ -8,7 +8,7 @@ test("Configure Method (Without Options)", function() {
 test("Configure Method (With Option)", function() {
     var instance = wpAjax.configure({debug:true});
     var result      = instance.getConfiguration();
-    deepEqual(result.debug, true);
+    ok(result.debug);
 });
 
 // Test getting the request status
