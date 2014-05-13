@@ -29,3 +29,19 @@ test("Fetch Page Title", function() {
     var expected = "Valid Response";
     equal(result, expected);
 });
+
+asyncTest("Page Load via the doRequest method", function() {
+    expect(1); // Expect one assetion test
+
+    var callbacks = {
+        success: function(data, textStatus) {
+            ok(true, "AJAX page load successful. Text status: "+textStatus);
+            start();
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            ok(false, "AJAX page load error: "+errorThrown);
+        }
+    };
+
+    wpAjax.doRequest("ajax-page-content-test.html", callbacks.success, callbacks.error);
+});
