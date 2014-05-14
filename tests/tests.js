@@ -18,6 +18,7 @@ test("Request Status", function() {
     deepEqual(result, false);
 });
 
+// Test getting the current page URL and matching the current URL
 test("Get Current URL", function() {
     var result      = wpAjax.getCurrentUrl();
     var expected = window.location.href;
