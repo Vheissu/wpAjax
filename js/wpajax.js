@@ -27,16 +27,17 @@
         // Call this from within a click event
         wpAjax.trigger("http://www.someurl.com");
 
-        $(document).on("wpAjax.loaded", function(event, url) {
-
-        });
-
-        $(document).on("wpAjax.failed", function(event, url) {
+        // Request is currently happening (with current URL and new URL)
+        $(document).on("wpAjax.loading", function(event, previousUrl, url) {
 
         });
 
         // All data has loaded
         $(document).on("wpAjax.loaded", function(event, data, url) {
+
+        });
+
+        $(document).on("wpAjax.failed", function(event, url) {
 
         });
 
@@ -134,8 +135,11 @@
             // Apply a loading class to the body
             $body.addClass("loading-page");
 
+            // Get the current URL we are on
+            var previousUrl = wpAjax.getCurrentUrl();
+
             // Trigger loading event
-            $(document).trigger("wpAjax.loading", [url]);
+            $(document).trigger("wpAjax.loading", [previousUrl, url]);
 
             // Before content is loaded in, fade out the old content
             wpAjax.fadeOutContent();
