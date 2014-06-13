@@ -75,13 +75,8 @@
 
         log("Event.statechange: HTML5 History statechange event trigger with URL: "+State.url);
 
-        // Load the page if we're not already on it
-        if (State.url !== wpAjax.getCurrentUrl()) {
-            log("Event.statechange: Calling the wpAjax.loadPage function with State.url as its parameter");
-            wpAjax.loadPage(State.url);
-        } else {
-            log("Event.statechange: AJAX request not performed as user is already on the requested page");
-        }
+        log("Event.statechange: Calling the wpAjax.loadPage function with State.url as its parameter");
+        wpAjax.loadPage(State.url);
     });
 
     // Allows us to configure wpAjax
