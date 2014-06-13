@@ -281,7 +281,7 @@
                             log("processRequest: All images in AJAX loaded content have preloaded");
 
                             // Replace body classes with those of the loaded body classes
-                            $body.attr("class",data.filter("body").attr("class"));
+                            $body.attr("class",_html.filter("body").attr("class"));
 
                             // All content has been populated, assume we've succeeded
                             $(document).trigger("wpAjax.complete", [contentEl]);
@@ -297,7 +297,7 @@
                         log("processRequest: Requested AJAX content has been added to the content element and classes changed");
 
                         // Replace body classes with those of the loaded body classes
-                        $body.attr("class",data.filter("body").attr("class"));
+                        $body.attr("class", _html.filter("body").attr("class"));
 
                         // All content has been populated, assume we've succeeded
                         $(document).trigger("wpAjax.complete", [contentEl]);
