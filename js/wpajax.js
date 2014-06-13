@@ -28,22 +28,28 @@
         wpAjax.trigger("http://www.someurl.com");
 
         // Request is currently happening (with current URL and new URL)
-        $(document).on("wpAjax.loading", function(event, previousUrl, url) {
-
+        $(document).on("wpAjax.loading", function(event) {
+            // Methods are;
+            // event.previousUrl
+            // event.url
         });
 
         // All data has loaded
-        $(document).on("wpAjax.loaded", function(event, data, url) {
-
+        $(document).on("wpAjax.loaded", function(event) {
+            // Methods are;
+            // event.data
+            // event.url
         });
 
-        $(document).on("wpAjax.failed", function(event, url) {
-
+        $(document).on("wpAjax.failed", function(event) {
+            // Methods are;
+            // event.url
         });
 
         // All data has been populated the content element returned
-        $(document).on("wpAjax.complete", function(event, contentEl) {
-
+        $(document).on("wpAjax.complete", function(event) {
+            // Methods are;
+            // event.contentEl
         });
     */
 
@@ -162,8 +168,12 @@
 
                 log("loadPage: Called doRequest and the request failed. Throwing a failed event on document");
 
+                var failedEvent = jQuery.Event("wpAjax.failed", {
+                    url: url
+                });
+
                 // Trigger failed event
-                $(document).trigger("wpAjax.failed", [url]);
+                $(document).trigger(failedEvent);
             }
         });
 
@@ -260,8 +270,13 @@
                 $wpvars.html(_wpvars);
             }
 
+            var loadedEvent = jQuery.Event("wpAjax.loaded", {
+                data: data,
+                url: url
+            });
+
              // AJAX load finished fire a loaded event with the data
-             $(document).trigger("wpAjax.loaded", [data, url]);
+             $(document).trigger(loadedEvent);
 
             log("processRequest: Content found from the AJAX request, determining what to do with it");
 
@@ -288,8 +303,12 @@
                             // Replace body classes with those of the loaded body classes
                             $body.attr("class",_html.filter("body").attr("class"));
 
+                            var completeEvent = jQuery.Event("wpAjax.complete", {
+                                contentEl: contentEl
+                            });
+
                             // All content has been populated, assume we've succeeded
-                            $(document).trigger("wpAjax.complete", [contentEl]);
+                            $(document).trigger(completeEvent);
 
                         });
 
@@ -304,8 +323,12 @@
                         // Replace body classes with those of the loaded body classes
                         $body.attr("class", _html.filter("body").attr("class"));
 
-                        // All content has been populated, assume we've succeeded
-                        $(document).trigger("wpAjax.complete", [contentEl]);
+                            var completeEvent = jQuery.Event("wpAjax.complete", {
+                                contentEl: contentEl
+                            });
+
+                            // All content has been populated, assume we've succeeded
+                            $(document).trigger(completeEvent);
 
                     });
                 }
@@ -319,9 +342,12 @@
                     // Replace body classes with those of the loaded body classes
                     $body.attr("class",data.filter("body").attr("class"));
 
-                    // All content has been populated, assume we've succeeded
-                    $(document).trigger("wpAjax.complete", [contentEl]);
+                            var completeEvent = jQuery.Event("wpAjax.complete", {
+                                contentEl: contentEl
+                            });
 
+                            // All content has been populated, assume we've succeeded
+                            $(document).trigger(completeEvent);
                 });
             }
 
