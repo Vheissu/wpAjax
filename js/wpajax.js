@@ -48,6 +48,7 @@
     */
 
     var currentRequest = null,
+         previousUrl = "",
          requestCount = 0;
 
     // Main WP Ajax object
@@ -75,8 +76,12 @@
 
         log("Event.statechange: HTML5 History statechange event trigger with URL: "+State.url);
 
-        log("Event.statechange: Calling the wpAjax.loadPage function with State.url as its parameter");
-        wpAjax.loadPage(State.url);
+        if (previousUrl !== State.url) {
+            log("Event.statechange: Calling the wpAjax.loadPage function with State.url as its parameter");
+            wpAjax.loadPage(State.url);
+        } else {
+            log("Event.statechange: User is already on the requested page to load. No request will be made.");
+        }
     });
 
     // Allows us to configure wpAjax
@@ -100,6 +105,9 @@
     // Trigger a page load
     wpAjax.trigger = function(url) {
         log("trigger: Calling History.pushState which will trigger a statechange");
+
+        // Store current URL as the previous URL
+        previousUrl = wpAjax.getCurrentUrl();
 
         wpAjax.getTitle(url, function(title) {
             History.pushState({}, title, url);
@@ -129,9 +137,6 @@
         if (!o.testMode) {
             // Apply a loading class to the body
             $body.addClass("loading-page");
-
-            // Get the current URL we are on
-            var previousUrl = wpAjax.getCurrentUrl();
 
             // Trigger loading event
             $(document).trigger("wpAjax.loading", [previousUrl, url]);
