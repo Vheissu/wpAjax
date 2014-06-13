@@ -148,10 +148,9 @@
         }
 
         // Perform our AJAX request
-        wpAjax.doRequest(url, function() {
+        wpAjax.doRequest(url, function(data) {
             wpAjax.processRequest(data, url);
         }, function() {
-            isLoading = false;
 
             if (!o.testMode) {
                 wpAjax.fadeInContent();
