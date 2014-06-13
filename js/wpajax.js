@@ -355,7 +355,7 @@
     // Expose our method to the world
     window.wpAjax = wpAjax;
 
-})(jQuery, window, document, window.History);
+})(jQuery, window, window.document, window.History);
 
 ;(function($, undefined) {
 
