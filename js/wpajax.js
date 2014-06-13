@@ -256,7 +256,7 @@
             log("processRequest: Content found from the AJAX request, determining what to do with it");
 
             // We want to wait for images to load before proceeding
-            if (waitForImages) {
+            if (o.waitForImages) {
 
                 log("processRequest Wait for images option is enabled, finding images");
 
