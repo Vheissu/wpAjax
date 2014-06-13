@@ -138,8 +138,12 @@
             // Apply a loading class to the body
             $body.addClass("loading-page");
 
-            // Trigger loading event
-            $(document).trigger("wpAjax.loading", [previousUrl, url]);
+            $.event.trigger({
+                type: "wpAjax.loading",
+                previousUrl: previousUrl,
+                url: url,
+                time: new Date()
+            });
 
             // Before content is loaded in, fade out the old content
             wpAjax.fadeOutContent();
