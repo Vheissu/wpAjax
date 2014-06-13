@@ -46,8 +46,8 @@
         });
     */
 
-    // Are we already performing a request?
-    var isLoading = false;
+    var currentRequest = null,
+         requestCount = 0;
 
     // Main WP Ajax object
     var wpAjax = {};
@@ -95,12 +95,6 @@
         return settings;
     };
 
-    // Returns whether or not we are currently in the middle of an AJAX request
-    wpAjax.requestStatus = function() {
-        log("requestStatus: Return current loading state");
-        return isLoading;
-    };
-
     // Helper function for checking the current URL
     wpAjax.getCurrentUrl = function() {
         log("getCurrentUrl: Getting the current browser address URL");
@@ -134,42 +128,36 @@
     // Load page function
     wpAjax.loadPage = function(url) {
 
-        if (isLoading == false) {
+        log("loadPage: No other request is taking place, we are good to go");
 
-            log("loadPage: No other request is taking place, we are good to go");
+        if (!o.testMode) {
+            // Apply a loading class to the body
+            $body.addClass("loading-page");
+
+            // Trigger loading event
+            $(document).trigger("wpAjax.loading", [url]);
+
+            // Before content is loaded in, fade out the old content
+            wpAjax.fadeOutContent();
+
+            log("loadPage: Loading class applied to body, loading event fired and content element faded out");
+        }
+
+        // Perform our AJAX request
+        wpAjax.doRequest(url, function() {
+            wpAjax.processRequest(data, url);
+        }, function() {
+            isLoading = false;
 
             if (!o.testMode) {
-                // Apply a loading class to the body
-                $body.addClass("loading-page");
+                wpAjax.fadeInContent();
 
-                // Trigger loading event
-                $(document).trigger("wpAjax.loading", [url]);
+                log("loadPage: Called doRequest and the request failed. Throwing a failed event on document");
 
-                // Before content is loaded in, fade out the old content
-                wpAjax.fadeOutContent();
-
-                log("loadPage: Loading class applied to body, loading event fired and content element faded out");
+                // Trigger failed event
+                $(document).trigger("wpAjax.failed", [url]);
             }
-
-            // Perform our AJAX request
-            wpAjax.doRequest(url, function() {
-                wpAjax.processRequest(data, url);
-            }, function() {
-                isLoading = false;
-
-                if (!o.testMode) {
-                    wpAjax.fadeInContent();
-
-                    log("loadPage: Called doRequest and the request failed. Throwing a failed event on document");
-
-                    // Trigger failed event
-                    $(document).trigger("wpAjax.failed", [url]);
-                }
-            });
-
-        } else {
-            return false;
-        }
+        });
 
     };
 
@@ -214,14 +202,22 @@
         log("doRequest: About to perform an AJAX call");
 
         // Do the fetching and stuff...
-        $.ajax({
+        currentRequest = $.ajax({
             url: url,
             localCache: o.cacheRequests,
             cacheTTL: o.cacheExpiry,
             type: 'GET',
             dataType: 'html',
+            requestCount: ++requestCount,
+            beforeSend: function() {
+                // Check if we have a promise and cancel any current requests
+                if (currentRequest !== null) {
+                    currentRequest.abort();
+                }
+            },
             success: function(response, textStatus, jqXHR) {
                 log("doRequest: AJAX success callback");
+                if (requestCount !== this.requestCount) return;
                 success(response, textStatus, jqXHR);
             },
             error: function(jqXHR, textStatus, errorThrown) {
@@ -245,9 +241,6 @@
         } else {
             var _content = _html.find("body").html();
         }
-
-        // AJAX request is finished
-        isLoading = false;
 
         log("processRequest: Processing the data returned by a successful AJAX call");
 
