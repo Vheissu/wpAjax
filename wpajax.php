@@ -13,9 +13,8 @@ Version: 1.0
 add_action('wp_enqueue_scripts', 'wpajax_init', 15);
 
 function wpajax_init() {
-    wp_enqueue_script( "wpajax-imagesloaded-js", plugins_url('/js/vendor/jquery.imagesloaded.min.js', __FILE__), array('jquery'), null, true );
-    wp_enqueue_script( "wpajax-history-js", plugins_url('/js/vendor/jquery.history.min.js', __FILE__), array('jquery'), null, true );
-    wp_enqueue_script( "wpajax-main-js", plugins_url('/js/wpajax.js', __FILE__), array('jquery'), null, true );
+    wp_enqueue_script( "wpajax-vendor-js", plugins_url('/js/wpajax-vendor.min.js', __FILE__), array('jquery'), null, true );
+    wp_enqueue_script( "wpajax-main-js", plugins_url('/js/wpajax.min.js', __FILE__), array('jquery'), null, true );
 }
 
 add_action("wp_footer", "wpajax_footer", 99);
