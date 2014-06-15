@@ -7,7 +7,7 @@
  * @version 1.0
  */
 
-;(function($, window, document, History, undefined) {
+(function($, window, document, History, undefined) {
 
     // Events trigger
 
@@ -388,7 +388,7 @@
 
 })(jQuery, window, window.document, window.History);
 
-;(function($, undefined) {
+(function($, undefined) {
 
     // github.com/paulirish/jquery-ajax-localstorage-cache
     // dependent on Modernizr's localStorage test
