@@ -14,7 +14,7 @@ gulp.task('jshint', function() {
 
 // Combine, minify all vendor JS
 gulp.task('vendor', function() {
-  return gulp.src(['src/vendor/jquery.history.min.js', 'src/vendor/jquery.imagesloaded.min.js'])
+  return gulp.src(['src/vendor/jquery.history.js', 'src/vendor/jquery.imagesloaded.js'])
     .pipe(plugins.concat('wpajax-vendor.min.js'))
     .pipe(plugins.uglify())
     .pipe(gulp.dest('js/'))
