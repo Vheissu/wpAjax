@@ -25,8 +25,8 @@ gulp.task('vendor', function() {
 gulp.task('scripts', function() {
   return gulp.src(['src/*.js', '!src/vendor{,/**}'])
     .pipe(plugins.concat('wpajax.min.js'))
-    .pipe(plugins.stripDebug())
-    .pipe(plugins.uglify())
+    //.pipe(plugins.stripDebug())
+    //.pipe(plugins.uglify())
     .pipe(gulp.dest('js/'))
     .pipe(plugins.notify({ message: 'Scripts task complete' }));
 });
