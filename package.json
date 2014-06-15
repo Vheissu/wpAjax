@@ -13,6 +13,6 @@
     "gulp-notify": "*",
     "gulp-rename": "*",
     "gulp-strip-debug": "*",
-    "gulp-uglify": "*",
+    "gulp-uglify": "*"
   }
 }
