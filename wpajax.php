@@ -9,13 +9,16 @@ Author URI: http://ilikekillnerds.com
 Version: 1.0
 */
 
-add_action('init', 'wpajax_init');
+// Execute scripts before WP scripts added in
+add_action('wp_enqueue_scripts', 'wpajax_init', 19);
 
 function wpajax_init() {
     wp_enqueue_script( "wpajax-imagesloaded-js", plugins_url('/js/vendor/jquery.imagesloaded.min.js', __FILE__), array('jquery'), null, true );
     wp_enqueue_script( "wpajax-history-js", plugins_url('/js/vendor/jquery.history.min.js', __FILE__), array('jquery'), null, true );
     wp_enqueue_script( "wpajax-main-js", plugins_url('/js/wpajax.js', __FILE__), array('jquery'), null, true );
 }
+
+add_action("wp_footer", "wpajax_footer", 99);
 
 // Adds in some page variables we can fetch via AJAX requests
 function wpajax_footer() {
