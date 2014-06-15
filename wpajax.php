@@ -10,7 +10,7 @@ Version: 1.0
 */
 
 // Execute scripts before WP scripts added in
-add_action('wp_enqueue_scripts', 'wpajax_init', 19);
+add_action('wp_enqueue_scripts', 'wpajax_init', 15);
 
 function wpajax_init() {
     wp_enqueue_script( "wpajax-imagesloaded-js", plugins_url('/js/vendor/jquery.imagesloaded.min.js', __FILE__), array('jquery'), null, true );
