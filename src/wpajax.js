@@ -296,7 +296,7 @@
                         log("processRequest: Populated the content element with content, about to preload iamges");
 
                         // Wait for any newly populated images to load
-                        contentEl.imagesLoaded().then(function() {
+                        contentEl.waitForImages(function() {
 
                             log("processRequest: All images in AJAX loaded content have preloaded");
 
