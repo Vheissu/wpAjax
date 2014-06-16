@@ -153,42 +153,50 @@
             $(document).trigger(loadingEvent);
 
             // Before content is loaded in, fade out the old content
-            wpAjax.fadeOutContent();
+            wpAjax.fadeOutContent(function() {
+
+               // Perform our AJAX request
+                wpAjax.doRequest(url, function(data) {
+                    wpAjax.processRequest(data, url);
+                }, function() {
+
+                    if (!o.testMode) {
+                        wpAjax.fadeInContent();
+
+                        log("loadPage: Called doRequest and the request failed. Throwing a failed event on document");
+
+                        var failedEvent = jQuery.Event("wpAjax.failed", {
+                            url: url
+                        });
+
+                        // Trigger failed event
+                        $(document).trigger(failedEvent);
+                    }
+                });
+
+            });
 
             log("loadPage: Loading class applied to body, loading event fired and content element faded out");
         }
 
-        // Perform our AJAX request
-        wpAjax.doRequest(url, function(data) {
-            wpAjax.processRequest(data, url);
-        }, function() {
-
-            if (!o.testMode) {
-                wpAjax.fadeInContent();
-
-                log("loadPage: Called doRequest and the request failed. Throwing a failed event on document");
-
-                var failedEvent = jQuery.Event("wpAjax.failed", {
-                    url: url
-                });
-
-                // Trigger failed event
-                $(document).trigger(failedEvent);
-            }
-        });
-
     };
 
     // Fade out the content area
-    wpAjax.fadeOutContent = function() {
+    wpAjax.fadeOutContent = function(callback) {
         log("fadeOutContent: Animating content element out");
-        $content.animate({opacity:0}, 800);
+
+        if (arguments.length == 0) callback = function() {};
+
+        $content.animate({opacity:0}, 800, callback);
     };
 
     // Fade in the content area
-    wpAjax.fadeInContent = function() {
+    wpAjax.fadeInContent = function(callback) {
         log("fadeInContent: Animating content element in");
-        $content.animate({opacity:1}, 800);
+
+        if (arguments.length == 0) callback = function() {};
+
+        $content.animate({opacity:1}, 800, callback);
     };
 
     // Performs an AJAX request to get the page title
