@@ -37,7 +37,7 @@
         // All data has loaded
         $(document).on("wpAjax.loaded", function(event) {
             // Methods are;
-            // event.data
+            // event.content
             // event.url
         });
 
@@ -271,7 +271,7 @@
             }
 
             var loadedEvent = jQuery.Event("wpAjax.loaded", {
-                data: data,
+                content: data,
                 url: url
             });
 
