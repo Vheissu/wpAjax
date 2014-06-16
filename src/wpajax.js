@@ -267,7 +267,13 @@
 
             if (!o.testMode) {
                 // Get latest version of WP Vars object
-                $wpvars.html(_wpvars);
+                $("#wpvars").remove();
+
+                var s = document.createElement("script");
+                s.id = "wpvars";
+                s.type = "text/javascript";
+                s.text = _wpvars;
+                $("body").append(s);
             }
 
             var loadedEvent = jQuery.Event("wpAjax.loaded", {
