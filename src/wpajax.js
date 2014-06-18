@@ -11,10 +11,10 @@
 
     // Events trigger
 
-    // While loading: wpAjax.loading: (event, url)
-    // If failed: wpAjax.failed: (event, url)
-    // Content loaded: wpAjax.loaded: (event, data, url)
-    // Content loaded and populated: wpAjax.complete: (event, contentEl)
+    // While loading: wpAjax.loading: (event)
+    // If failed: wpAjax.failed: (event)
+    // Content loaded: wpAjax.loaded: (event)
+    // Content loaded and populated: wpAjax.complete: (event)
 
     /*
         Example:
@@ -34,8 +34,6 @@
             // event.previousSlug
             // event.previousID
             // event.url
-            // event.slug
-            // event.ID
         });
 
         // All data has loaded
@@ -60,8 +58,6 @@
             // Methods are;
             // event.contentEl
             // event.url
-            // event.slug
-            // event.ID
         });
     */
 
@@ -311,7 +307,9 @@
                 previousSlug: previousSlug,
                 previousID: previousID,
                 content: data,
-                url: url
+                url: url,
+                slug: wpvars.pagename,
+                ID: wpvars.pageid
             });
 
              // AJAX load finished fire a loaded event with the data
