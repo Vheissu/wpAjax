@@ -64,17 +64,17 @@
 
     // Options
     var settings = {
-            content: '#content',      // This is our container
-            cacheRequests: true,  // Use HTML5 localStorage to cache pages?
-            cacheExpiry: 1,          // Time in hours cached items should be cached for
-            waitForImages: true,   // Wait for images to load before loading a page?
-            debug: false               // Debug mode shows console messages if true
-        },
-        o = settings;
+        content: '#content',      // This is our container
+        cacheRequests: true,  // Use HTML5 localStorage to cache pages?
+        cacheExpiry: 1,          // Time in hours cached items should be cached for
+        waitForImages: true,   // Wait for images to load before loading a page?
+        debug: false               // Debug mode shows console messages if true
+    },
+    o = settings;
 
     // These two elements never disappear and are always consistent
     var $body    = $("body");
-    var $wpvars = $("wpvars");
+    var $wpvars  = $("wpvars");
     var $content = $(o.content);
 
     // Statechange when the URL changes, we roll
@@ -114,13 +114,13 @@
         log("trigger: Calling History.pushState which will trigger a statechange");
 
         // Store current URL as the previous URL
-        previousUrl   = wpAjax.getCurrentUrl();
+        previousUrl = wpAjax.getCurrentUrl();
 
         // Store the current page/post slug
         previousSlug = wpvars.pagename;
 
         // Store the current page/post ID
-        previousID    = wpvars.pageid;
+        previousID = wpvars.pageid;
 
         wpAjax.getTitle(url, function(title) {
             History.pushState({}, title, url);
@@ -266,7 +266,7 @@
         var _html = $(data);
 
         var _content = _html.find(o.content).html();
-        var _wpvars = _html.find("#wpvars").html();
+        var _wpvars  = _html.filter("#wpvars").html();
 
         log("processRequest: Processing the data returned by a successful AJAX call");
 
