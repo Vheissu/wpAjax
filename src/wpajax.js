@@ -12,9 +12,8 @@
     // Events trigger
 
     // While loading: wpAjax.loading: (event)
+    // Content loaded: wpAjax.complete: (event)
     // If failed: wpAjax.failed: (event)
-    // Content loaded: wpAjax.loaded: (event)
-    // Content loaded and populated: wpAjax.complete: (event)
 
     /*
         Example:
@@ -37,7 +36,7 @@
         });
 
         // All data has loaded
-        $(document).on("wpAjax.loaded", function(event) {
+        $(document).on("wpAjax.complete", function(event) {
             // Methods are;
             // event.previousUrl
             // event.previousSlug
@@ -50,13 +49,6 @@
 
         $(document).on("wpAjax.failed", function(event) {
             // Methods are;
-            // event.url
-        });
-
-        // All data has been populated the content element returned
-        $(document).on("wpAjax.complete", function(event) {
-            // Methods are;
-            // event.contentEl
             // event.url
         });
     */
@@ -300,20 +292,17 @@
                 s.type = "text/javascript";
                 s.text = _wpvars;
                 $("body").append(s);
+
+                var completeEvent = jQuery.Event("wpAjax.complete", {
+                    previousUrl: previousUrl,
+                    previousSlug: previousSlug,
+                    previousID: previousID,
+                    content: data,
+                    url: url,
+                    slug: wpvars.pagename,
+                    ID: wpvars.pageid
+                });
             }
-
-            var loadedEvent = jQuery.Event("wpAjax.loaded", {
-                previousUrl: previousUrl,
-                previousSlug: previousSlug,
-                previousID: previousID,
-                content: data,
-                url: url,
-                slug: wpvars.pagename,
-                ID: wpvars.pageid
-            });
-
-             // AJAX load finished fire a loaded event with the data
-             $(document).trigger(loadedEvent);
 
             log("processRequest: Content found from the AJAX request, determining what to do with it");
 
@@ -340,12 +329,9 @@
                             // Replace body classes with those of the loaded body classes
                             $body.attr("class", data.match(/body class=\"(.*?)\"/)[1]);
 
-                            var completeEvent = jQuery.Event("wpAjax.complete", {
-                                contentEl: contentEl
-                            });
-
-                            // All content has been populated, assume we've succeeded
-                            $(document).trigger(completeEvent);
+                            if (!o.testMode) {
+                                $(document),trigger(completeEvent);
+                            }
 
                         });
 
@@ -360,12 +346,9 @@
                         // Replace body classes with those of the loaded body classes
                         $body.attr("class", data.match(/body class=\"(.*?)\"/)[1]);
 
-                            var completeEvent = jQuery.Event("wpAjax.complete", {
-                                contentEl: contentEl
-                            });
-
-                            // All content has been populated, assume we've succeeded
-                            $(document).trigger(completeEvent);
+                        if (!o.testMode) {
+                            $(document),trigger(completeEvent);
+                        }
 
                     });
                 }
@@ -379,12 +362,9 @@
                     // Replace body classes with those of the loaded body classes
                     $("body").attr("class",data.filter("body").attr("class"));
 
-                            var completeEvent = jQuery.Event("wpAjax.complete", {
-                                contentEl: contentEl
-                            });
-
-                            // All content has been populated, assume we've succeeded
-                            $(document).trigger(completeEvent);
+                    if (!o.testMode) {
+                        $(document),trigger(completeEvent);
+                    }
                 });
             }
 
