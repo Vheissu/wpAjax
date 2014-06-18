@@ -280,7 +280,7 @@
             s.id = "wpvars";
             s.type = "text/javascript";
             s.text = _wpvars;
-            $body.append(s);
+            document.body.appendChild(s);
 
             var completeEvent = jQuery.Event("wpAjax.complete", {
                 previousUrl: previousUrl,
