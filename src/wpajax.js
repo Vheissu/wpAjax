@@ -122,6 +122,9 @@
         // Store the current page/post ID
         previousID = wpvars.pageid;
 
+        var pageLeaveEvent = jQuery.Event("wpAjax.pageleave-"+previousSlug);
+        $(document).trigger(pageLeaveEvent);
+
         wpAjax.getTitle(url, function(title) {
             History.pushState({}, title, url);
         });
