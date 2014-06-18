@@ -30,6 +30,10 @@ function wpajax_body_classes( $classes )
         $classes[] = 'wpajax-page-'.$post->post_name;
     }
 
+    if (isset($post->ID)) {
+        $classes[] = 'wpajax-pageid-'.$post->ID;
+    }
+
     return $classes;
 }
 add_filter( 'body_class', 'wpajax_body_classes' );
