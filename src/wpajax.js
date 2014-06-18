@@ -267,7 +267,7 @@
 
         var _content = _html.find(o.content).html();
         var _wpvars = _html.find("#wpvars").html();
-        var _jsonobj = JSON.stringify(_wpvars);
+        var _jsonobj = eval(_wpvars);
 
         console.log(_jsonobj);
 
