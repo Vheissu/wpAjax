@@ -267,9 +267,8 @@
 
         var _content = _html.find(o.content).html();
         var _wpvars = _html.find("#wpvars").html();
-        var _jsonobj = eval(_wpvars);
 
-        console.log(_jsonobj);
+        console.log(_wpvars);
 
         log("processRequest: Processing the data returned by a successful AJAX call");
 
