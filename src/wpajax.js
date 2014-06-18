@@ -344,7 +344,7 @@
                     log("processRequest: Requested AJAX content has been added to the content element and classes changed");
 
                     // Replace body classes with those of the loaded body classes
-                    $("body").attr("class",data.filter("body").attr("class"));
+                    $("body").attr("class", data.match(/body class=\"(.*?)\"/)[1]);
 
                     $(document).trigger(completeEvent);
                     $(document).trigger("wpAjax.page.load-"+wpvars.pagename);
