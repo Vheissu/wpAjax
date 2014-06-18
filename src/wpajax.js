@@ -318,6 +318,7 @@
                             $body.attr("class", data.match(/body class=\"(.*?)\"/)[1]);
 
                             $(document).trigger(completeEvent);
+                            $(document).trigger("wpAjax.page.load-"+wpvars.pagename);
                         });
 
                     });
@@ -332,6 +333,7 @@
                         $body.attr("class", data.match(/body class=\"(.*?)\"/)[1]);
 
                         $(document).trigger(completeEvent);
+                        $(document).trigger("wpAjax.page.load-"+wpvars.pagename);
                     });
                 }
 
@@ -345,6 +347,7 @@
                     $("body").attr("class",data.filter("body").attr("class"));
 
                     $(document).trigger(completeEvent);
+                    $(document).trigger("wpAjax.page.load-"+wpvars.pagename);
                 });
             }
 
