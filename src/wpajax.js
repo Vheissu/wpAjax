@@ -292,6 +292,8 @@
                 ID: wpvars.pageid
             });
 
+            var pageLoadEvent = jQuery.Event("wpAjax.page.load-"+wpvars.pagename);
+
             log("processRequest: Content found from the AJAX request, determining what to do with it");
 
             // We want to wait for images to load before proceeding
@@ -318,7 +320,7 @@
                             $body.attr("class", data.match(/body class=\"(.*?)\"/)[1]);
 
                             $(document).trigger(completeEvent);
-                            $(document).trigger("wpAjax.page.load-"+wpvars.pagename);
+                            $(document).trigger(pageLoadEvent);
                         });
 
                     });
@@ -333,7 +335,7 @@
                         $body.attr("class", data.match(/body class=\"(.*?)\"/)[1]);
 
                         $(document).trigger(completeEvent);
-                        $(document).trigger("wpAjax.page.load-"+wpvars.pagename);
+                        $(document).trigger(pageLoadEvent);
                     });
                 }
 
@@ -347,7 +349,7 @@
                     $("body").attr("class", data.match(/body class=\"(.*?)\"/)[1]);
 
                     $(document).trigger(completeEvent);
-                    $(document).trigger("wpAjax.page.load-"+wpvars.pagename);
+                    $(document).trigger(pageLoadEvent);
                 });
             }
 
