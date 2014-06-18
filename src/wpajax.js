@@ -134,8 +134,11 @@
             for (var i = 0, len = classesArr.length; i < len; ++i) {
                 var pointer = classesArr[i];
 
-                // Strips out any non wpajax class from our array
-                if (pointer.indexOf("wpajax-") === -1) {
+                // Okay, we found a reference
+                if (pointer.indexOf("wpajax-") > -1) {
+
+                } else {
+                    // Strips out any non wpajax class from our array
                     classesArr.splice(i, 1);
                 }
             }
