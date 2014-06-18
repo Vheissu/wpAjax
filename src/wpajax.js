@@ -134,15 +134,19 @@
             for (var i = 0, len = classesArr.length; i < len; ++i) {
                 var pointer = classesArr[i];
 
-                // If we come across a class that isn't wpajax, remove it from our array
-                if (pointer.indexOf("wpajax-") == -1) {
-                    classesArr.splice(i, 1);
-                } else {
+                console.log(pointer);
 
-                    var pagename = pointer.match('/wpajax\-pagename-[^\s]*/');
+                if (pointer) {
+                    // If we come across a class that isn't wpajax, remove it from our array
+                    if (pointer.indexOf("wpajax-") == -1) {
+                        classesArr.splice(i, 1);
+                    } else {
 
-                    console.log(pagename);
+                        var pagename = pointer.match('/wpajax\-pagename-[^\s]*/');
 
+                        console.log(pagename);
+
+                    }
                 }
             }
         }
