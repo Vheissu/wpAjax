@@ -19,6 +19,21 @@ function wpajax_init() {
 
 add_action("wp_footer", "wpajax_footer", 99);
 
+/**
+ * Adds custom classes to the array of body classes.
+ */
+function wpajax_body_classes( $classes )
+{
+    global $post;
+
+    if (isset($post->post_name)) {
+        $classes[] = 'wpajax-page-'.$post->post_name;
+    }
+
+    return $classes;
+}
+add_filter( 'body_class', 'wpajax_body_classes' );
+
 // Adds in some page variables we can fetch via AJAX requests
 function wpajax_footer() {
     global $wp_query;
