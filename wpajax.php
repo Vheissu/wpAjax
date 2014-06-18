@@ -27,7 +27,7 @@ function wpajax_body_classes( $classes )
     global $post;
 
     if (isset($post->post_name)) {
-        $classes[] = 'wpajax-page-'.$post->post_name;
+        $classes[] = 'wpajax-pagename-'.$post->post_name;
     }
 
     if (isset($post->ID)) {
