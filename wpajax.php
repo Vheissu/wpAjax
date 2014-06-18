@@ -55,6 +55,6 @@ function wpajax_footer() {
         $pagename = $post->post_name;
     }
 
-    echo '<script type="text/javascript">var site_url = "'.site_url().'";</script>\r\n';
-    echo '<script id="wpvars" type="text/javascript">var wpvars = { max: '.$max.', paged: '.$paged.', pageid: '.$pageid.', pagename: "'.$pagename.'"  };</script>\r\n';
+    echo '<script type="text/javascript">var site_url = "'.site_url().'";</script>';
+    echo '<script id="wpvars" type="text/javascript">var wpvars = { max: '.$max.', paged: '.$paged.', pageid: '.$pageid.', pagename: "'.$pagename.'"  };</script>';
 }
