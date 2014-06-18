@@ -51,6 +51,16 @@
             // Methods are;
             // event.url
         });
+
+        // When a particular page via its slug is loaded
+        $(document).on("wpAjax.pageload-slug", function(event) {
+
+        });
+
+        // When a particular page via its slug is being left (loading a new page)
+        $(document).on("wpAjax.pageleave-slug", function(event) {
+
+        });
     */
 
     var currentRequest = null,
