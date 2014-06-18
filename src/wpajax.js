@@ -131,8 +131,8 @@
         if (bodyClasses) {
             var classesArr  = bodyClasses.split(" ");
 
-            var pageNameArr  = classesArr;
-            var pageIDArr       = classesArr;
+            var pageNameArr  = bodyClasses.split(" ");
+            var pageIDArr       = bodyClasses.split(" ");
 
             for (var i = 0, len = classesArr.length; i < len; ++i) {
                 var pointer = classesArr[i];
