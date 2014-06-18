@@ -135,19 +135,6 @@
                 var pointer = classesArr[i];
 
                 console.log(pointer);
-
-                if (pointer) {
-                    // If we come across a class that isn't wpajax, remove it from our array
-                    if (pointer.indexOf("wpajax-") == -1) {
-                        classesArr.splice(i, 1);
-                    } else {
-
-                        var pagename = pointer.match('/wpajax\-pagename-[^\s]*/');
-
-                        console.log(pagename);
-
-                    }
-                }
             }
         }
     };
