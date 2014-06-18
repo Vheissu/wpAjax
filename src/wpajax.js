@@ -108,7 +108,6 @@
     wpAjax.configure = function(options) {
         log("configure: Setting options for Wpajax");
         $.extend(settings, options);
-        wpAjax.getPluginClassVars();
         return this;
     };
 
@@ -155,6 +154,8 @@
     // Trigger a page load
     wpAjax.trigger = function(url) {
         log("trigger: Calling History.pushState which will trigger a statechange");
+
+        wpAjax.getPluginClassVars();
 
         // Store current URL as the previous URL
         previousUrl = wpAjax.getCurrentUrl();
