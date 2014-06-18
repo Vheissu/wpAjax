@@ -68,8 +68,7 @@
             cacheRequests: true,  // Use HTML5 localStorage to cache pages?
             cacheExpiry: 1,          // Time in hours cached items should be cached for
             waitForImages: true,   // Wait for images to load before loading a page?
-            debug: false,              // Debug mode shows console messages if true
-            testMode: false           // Modifies certain methods so we can test them
+            debug: false               // Debug mode shows console messages if true
         },
         o = settings;
 
@@ -148,46 +147,41 @@
 
         log("loadPage: No other request is taking place, we are good to go");
 
-        if (!o.testMode) {
-            // Apply a loading class to the body
-            $("body").addClass("loading-page");
+        // Apply a loading class to the body
+        $("body").addClass("loading-page");
 
-            var loadingEvent = jQuery.Event("wpAjax.loading", {
-                previousUrl: previousUrl,
-                previousSlug: previousSlug,
-                previousID: previousID,
-                url: url
-            });
+        var loadingEvent = jQuery.Event("wpAjax.loading", {
+            previousUrl: previousUrl,
+            previousSlug: previousSlug,
+            previousID: previousID,
+            url: url
+        });
 
-            // Trigger loading event
-            $(document).trigger(loadingEvent);
+        // Trigger loading event
+        $(document).trigger(loadingEvent);
 
-            // Before content is loaded in, fade out the old content
-            wpAjax.fadeOutContent(function() {
+        // Before content is loaded in, fade out the old content
+        wpAjax.fadeOutContent(function() {
 
-               // Perform our AJAX request
-                wpAjax.doRequest(url, function(data) {
-                    wpAjax.processRequest(data, url);
-                }, function() {
+           // Perform our AJAX request
+            wpAjax.doRequest(url, function(data) {
+                wpAjax.processRequest(data, url);
+            }, function() {
+                wpAjax.fadeInContent();
 
-                    if (!o.testMode) {
-                        wpAjax.fadeInContent();
+                log("loadPage: Called doRequest and the request failed. Throwing a failed event on document");
 
-                        log("loadPage: Called doRequest and the request failed. Throwing a failed event on document");
-
-                        var failedEvent = jQuery.Event("wpAjax.failed", {
-                            url: url
-                        });
-
-                        // Trigger failed event
-                        $(document).trigger(failedEvent);
-                    }
+                var failedEvent = jQuery.Event("wpAjax.failed", {
+                    url: url
                 });
 
+                // Trigger failed event
+                $(document).trigger(failedEvent);
             });
 
-            log("loadPage: Loading class applied to body, loading event fired and content element faded out");
-        }
+        });
+
+        log("loadPage: Loading class applied to body, loading event fired and content element faded out");
 
     };
 
@@ -279,26 +273,24 @@
         // Do we have content?
         if (_content && _content.length) {
 
-            if (!o.testMode) {
-                // Get latest version of WP Vars object
-                $("#wpvars").remove();
+            // Get latest version of WP Vars object
+            $("#wpvars").remove();
 
-                var s = document.createElement("script");
-                s.id = "wpvars";
-                s.type = "text/javascript";
-                s.text = _wpvars;
-                $("body").append(s);
+            var s = document.createElement("script");
+            s.id = "wpvars";
+            s.type = "text/javascript";
+            s.text = _wpvars;
+            $("body").append(s);
 
-                var completeEvent = jQuery.Event("wpAjax.complete", {
-                    previousUrl: previousUrl,
-                    previousSlug: previousSlug,
-                    previousID: previousID,
-                    content: data,
-                    url: url,
-                    slug: wpvars.pagename,
-                    ID: wpvars.pageid
-                });
-            }
+            var completeEvent = jQuery.Event("wpAjax.complete", {
+                previousUrl: previousUrl,
+                previousSlug: previousSlug,
+                previousID: previousID,
+                content: data,
+                url: url,
+                slug: wpvars.pagename,
+                ID: wpvars.pageid
+            });
 
             log("processRequest: Content found from the AJAX request, determining what to do with it");
 
@@ -325,10 +317,7 @@
                             // Replace body classes with those of the loaded body classes
                             $body.attr("class", data.match(/body class=\"(.*?)\"/)[1]);
 
-                            if (!o.testMode) {
-                                $(document).trigger(completeEvent);
-                            }
-
+                            $(document).trigger(completeEvent);
                         });
 
                     });
@@ -342,10 +331,7 @@
                         // Replace body classes with those of the loaded body classes
                         $body.attr("class", data.match(/body class=\"(.*?)\"/)[1]);
 
-                        if (!o.testMode) {
-                            $(document).trigger(completeEvent);
-                        }
-
+                        $(document).trigger(completeEvent);
                     });
                 }
 
@@ -358,9 +344,7 @@
                     // Replace body classes with those of the loaded body classes
                     $("body").attr("class",data.filter("body").attr("class"));
 
-                    if (!o.testMode) {
-                        $(document).trigger(completeEvent);
-                    }
+                    $(document).trigger(completeEvent);
                 });
             }
 
@@ -377,10 +361,8 @@
     wpAjax.populateContent = function(content, callback) {
         log("populateContent: About to populate the content element with returned HTML");
 
-        if (!o.testMode) {
-            // Populate the content element
-            $content.html(content);
-        }
+        // Populate the content element
+        $content.html(content);
 
         // If we have a callback function
         if ($.isFunction(callback)) {
