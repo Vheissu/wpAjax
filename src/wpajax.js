@@ -122,8 +122,8 @@
         return window.location.href;
     };
 
-    // Get all vars supplied via the URL
-    wpAjax.getPluginUrlVars = function() {
+    // Get all vars supplied via the body classes
+    wpAjax.getPluginClassVars = function() {
         var classes    = $body.attr("class");
         var returnObj = {};
 
