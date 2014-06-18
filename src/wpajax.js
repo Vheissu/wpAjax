@@ -139,7 +139,7 @@
                     pointer.splice(i, 1);
                 } else {
 
-                    var pagename =(pointer.match('/wpajax\-pagename-[^\s]*/');
+                    var pagename = pointer.match('/wpajax\-pagename-[^\s]*/');
 
                     console.log(pagename);
 
