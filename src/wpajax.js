@@ -135,7 +135,7 @@
                 var pointer = classesArr[i];
 
                 // If we come across a class that isn't wpajax, remove it from our array
-                if (pointer.indexOf("wpajax-") === -1) {
+                if (pointer.indexOf("wpajax-") == -1) {
                     pointer.splice(i, 1);
                 } else {
 
