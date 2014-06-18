@@ -266,7 +266,7 @@
         var _html = $(data);
 
         var _content = _html.find(o.content).html();
-        var _wpvars = _html.filter(document.getElementById( "wpvars" )).html();
+        var _wpvars = _html.find("#wpvars").html();
 
         log("processRequest: Processing the data returned by a successful AJAX call");
 
