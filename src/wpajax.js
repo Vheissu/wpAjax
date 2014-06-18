@@ -124,7 +124,7 @@
 
     // Get all vars supplied via the body classes
     wpAjax.getPluginClassVars = function() {
-        var bodyClasses = $body.attr("class");
+        var bodyClasses = $("body").attr("class");
         var returnObj = {};
 
         if (bodyClasses) {
@@ -187,7 +187,7 @@
 
         if (!o.testMode) {
             // Apply a loading class to the body
-            $body.addClass("loading-page");
+            $("body").addClass("loading-page");
 
             var loadingEvent = jQuery.Event("wpAjax.loading", {
                 previousUrl: previousUrl,
@@ -365,7 +365,7 @@
                             log("processRequest: All images in AJAX loaded content have preloaded");
 
                             // Replace body classes with those of the loaded body classes
-                            $body.attr("class",_html.filter("body").attr("class"));
+                            $("body").attr("class",_html.filter("body").attr("class"));
 
                             var completeEvent = jQuery.Event("wpAjax.complete", {
                                 contentEl: contentEl
@@ -385,7 +385,7 @@
                         log("processRequest: Requested AJAX content has been added to the content element and classes changed");
 
                         // Replace body classes with those of the loaded body classes
-                        $body.attr("class", _html.filter("body").attr("class"));
+                        $("body").attr("class", _html.filter("body").attr("class"));
 
                             var completeEvent = jQuery.Event("wpAjax.complete", {
                                 contentEl: contentEl
@@ -404,7 +404,7 @@
                     log("processRequest: Requested AJAX content has been added to the content element and classes changed");
 
                     // Replace body classes with those of the loaded body classes
-                    $body.attr("class",data.filter("body").attr("class"));
+                    $("body").attr("class",data.filter("body").attr("class"));
 
                             var completeEvent = jQuery.Event("wpAjax.complete", {
                                 contentEl: contentEl
