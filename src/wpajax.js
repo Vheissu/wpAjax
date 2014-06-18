@@ -145,9 +145,6 @@
                     }
                 }
             }
-
-            console.log(pageNameArr);
-            console.log(pageIDArr);
         }
     };
 
