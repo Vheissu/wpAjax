@@ -31,14 +31,23 @@
         $(document).on("wpAjax.loading", function(event) {
             // Methods are;
             // event.previousUrl
+            // event.previousSlug
+            // event.previousID
             // event.url
+            // event.slug
+            // event.ID
         });
 
         // All data has loaded
         $(document).on("wpAjax.loaded", function(event) {
             // Methods are;
+            // event.previousUrl
+            // event.previousSlug
+            // event.previousID
             // event.content
             // event.url
+            // event.slug
+            // event.ID
         });
 
         $(document).on("wpAjax.failed", function(event) {
@@ -50,11 +59,16 @@
         $(document).on("wpAjax.complete", function(event) {
             // Methods are;
             // event.contentEl
+            // event.url
+            // event.slug
+            // event.ID
         });
     */
 
     var currentRequest = null,
          previousUrl = "",
+         previousSlug = "",
+         previousID = 0,
          requestCount = 0;
 
     // Main WP Ajax object
@@ -94,6 +108,7 @@
     wpAjax.configure = function(options) {
         log("configure: Setting options for Wpajax");
         $.extend(settings, options);
+        wpAjax.getPluginUrlVars();
         return this;
     };
 
@@ -106,6 +121,31 @@
     wpAjax.getCurrentUrl = function() {
         log("getCurrentUrl: Getting the current browser address URL");
         return window.location.href;
+    };
+
+    // Get all vars supplied via the URL
+    wpAjax.getPluginUrlVars = function() {
+        var classes    = $body.attr("class");
+        var returnObj = {};
+
+        if (classes) {
+            var classesArr = classes.split(" ");
+
+            for (var i = 0, len = classesArr.length; i < len; ++i) {
+                var pointer = classesArr[i];
+
+                // If we come across a class that isn't wpajax, remove it from our array
+                if (pointer.indexOf("wpajax-") === -1) {
+                    pointer.splice(i, 1);
+                } else {
+
+                    var pagename =(pointer.match('/wpajax\-pagename-[^\s]*/');
+
+                    console.log(pagename);
+
+                }
+            }
+        }
     };
 
     // Trigger a page load
@@ -146,6 +186,8 @@
 
             var loadingEvent = jQuery.Event("wpAjax.loading", {
                 previousUrl: previousUrl,
+                previousSlug: previousSlug,
+                previousID: previousID,
                 url: url
             });
 
@@ -401,6 +443,24 @@
     window.wpAjax = wpAjax;
 
 })(jQuery, window, window.document, window.History);
+
+// Regex selector for jQuery: http://james.padolsey.com/javascript/regex-selector-for-jquery/
+(function($, undefined) {
+
+    jQuery.expr[':'].regex = function(elem, index, match) {
+        var matchParams = match[3].split(','),
+            validLabels = /^(data|css):/,
+            attr = {
+                method: matchParams[0].match(validLabels) ?
+                            matchParams[0].split(':')[0] : 'attr',
+                property: matchParams.shift().replace(validLabels,'')
+            },
+            regexFlags = 'ig',
+            regex = new RegExp(matchParams.join('').replace(/^\s+|\s+$/g,''), regexFlags);
+        return regex.test(jQuery(elem)[attr.method](attr.property));
+    };
+
+})(jQuery);
 
 (function($, undefined) {
 
