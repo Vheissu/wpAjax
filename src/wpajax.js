@@ -108,7 +108,6 @@
     wpAjax.configure = function(options) {
         log("configure: Setting options for Wpajax");
         $.extend(settings, options);
-        wpAjax.getPluginUrlVars();
         return this;
     };
 
@@ -133,8 +132,6 @@
 
             for (var i = 0, len = classesArr.length; i < len; ++i) {
                 var pointer = classesArr[i];
-
-                console.log(pointer);
             }
         }
     };
