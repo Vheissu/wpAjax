@@ -268,6 +268,9 @@
         var _content = _html.find(o.content).html();
         var _wpvars = _html.find("#wpvars").html();
 
+        console.log("Process reqquest");
+        console.log(_wpvars);
+
         log("processRequest: Processing the data returned by a successful AJAX call");
 
         // Do we have content?
@@ -280,7 +283,7 @@
             s.id = "wpvars";
             s.type = "text/javascript";
             s.text = _wpvars;
-            document.body.appendChild(s);
+            $body.append(s);
 
             var completeEvent = jQuery.Event("wpAjax.complete", {
                 previousUrl: previousUrl,
