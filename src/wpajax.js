@@ -122,40 +122,18 @@
         return window.location.href;
     };
 
-    // Get all vars supplied via the body classes
-    wpAjax.getPluginClassVars = function() {
-        var bodyClasses = $("body").attr("class");
-        var returnObj = {};
-
-        if (bodyClasses) {
-            var classesArr  = bodyClasses.split(" ");
-
-            var pageNameArr  = classesArr;
-            var pageIDArr       = classesArr;
-
-            for (var i = 0, len = classesArr.length; i < len; ++i) {
-                var pointer = classesArr[i];
-
-                if (pointer) {
-                    if (pointer.indexOf("wpajax-pagename-") === -1) {
-                        pageNameArr.splice(i, 1);
-                    }
-                    if (pointer.indexOf("wpajax-pageid-") === -1) {
-                        pageIDArr.splice(i, 1);
-                    }
-                }
-            }
-        }
-    };
-
     // Trigger a page load
     wpAjax.trigger = function(url) {
         log("trigger: Calling History.pushState which will trigger a statechange");
 
-        wpAjax.getPluginClassVars();
-
         // Store current URL as the previous URL
-        previousUrl = wpAjax.getCurrentUrl();
+        previousUrl   = wpAjax.getCurrentUrl();
+
+        // Store the current page/post slug
+        previousSlug = wpajax.pagename;
+
+        // Store the current page/post ID
+        previousID    = wpajax.pageid;
 
         wpAjax.getTitle(url, function(title) {
             History.pushState({}, title, url);
