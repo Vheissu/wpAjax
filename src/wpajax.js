@@ -315,6 +315,9 @@
             }
 
             var loadedEvent = jQuery.Event("wpAjax.loaded", {
+                previousUrl: previousUrl,
+                previousSlug: previousSlug,
+                previousID: previousID,
                 content: data,
                 url: url
             });
