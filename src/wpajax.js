@@ -137,7 +137,7 @@
                 if (pointer) {
                     // Okay, we found a reference
                     if (pointer.indexOf("wpajax-") > -1) {
-                        var pagename = matchString("wpajax-page-", pointer);
+                        var pagename = matchString("wpajax-page-", bodyClasses);
                         console.log(pagename);
                     }
                 }
