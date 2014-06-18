@@ -134,8 +134,13 @@
             for (var i = 0, len = classesArr.length; i < len; ++i) {
                 var pointer = classesArr[i];
 
-                console.log(pointer);
+                // Strips out any non wpajax class from our array
+                if (pointer.indexOf("wpajax-") === -1) {
+                    classesArr.split(i, 1);
+                }
             }
+
+            console.log(classesArr);
         }
     };
 
