@@ -292,7 +292,7 @@
                 ID: wpvars.pageid
             });
 
-            var pageLoadEvent = jQuery.Event("wpAjax.page.load-"+wpvars.pagename);
+            var pageLoadEvent = jQuery.Event("wpAjax.pageload-"+wpvars.pagename);
 
             log("processRequest: Content found from the AJAX request, determining what to do with it");
 
