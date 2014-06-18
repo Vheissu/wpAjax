@@ -137,10 +137,8 @@
                 if (pointer) {
                     // Okay, we found a reference
                     if (pointer.indexOf("wpajax-") > -1) {
-
-                    } else {
-                        // Strips out any non wpajax class from our array
-                        classesArr.splice(i, 1);
+                        var pagename = matchString("wpajax-page-", pointer);
+                        console.log(pagename);
                     }
                 }
             }
