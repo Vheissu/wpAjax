@@ -130,10 +130,10 @@
         previousUrl   = wpAjax.getCurrentUrl();
 
         // Store the current page/post slug
-        previousSlug = wpajax.pagename;
+        previousSlug = wpvars.pagename;
 
         // Store the current page/post ID
-        previousID    = wpajax.pageid;
+        previousID    = wpvars.pageid;
 
         wpAjax.getTitle(url, function(title) {
             History.pushState({}, title, url);
