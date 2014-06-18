@@ -269,7 +269,7 @@
         var _wpvars = _html.find("#wpvars").html();
 
         console.log("Process reqquest");
-        console.log(_wpvars);
+        console.log(data);
 
         log("processRequest: Processing the data returned by a successful AJAX call");
 
