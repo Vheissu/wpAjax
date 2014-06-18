@@ -136,7 +136,7 @@
 
                 // Strips out any non wpajax class from our array
                 if (pointer.indexOf("wpajax-") === -1) {
-                    classesArr.split(i, 1);
+                    classesArr.splice(i, 1);
                 }
             }
 
