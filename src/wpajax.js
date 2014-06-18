@@ -129,21 +129,26 @@
         var returnObj = {};
 
         if (bodyClasses) {
-            var classesArr = bodyClasses.split(" ");
+            var classesArr  = bodyClasses.split(" ");
+
+            var pageNameArr  = classesArr;
+            var pageIDArr       = classesArr;
 
             for (var i = 0, len = classesArr.length; i < len; ++i) {
                 var pointer = classesArr[i];
 
                 if (pointer) {
-                    // Okay, we found a reference
-                    if (pointer.indexOf("wpajax-") > -1) {
-                        var pagename = matchString("wpajax-page-", bodyClasses);
-                        console.log(pagename);
+                    if (pointer.indexOf("wpajax-pagename-") === -1) {
+                        pageNameArr.splice(i, 1);
+                    }
+                    if (pointer.indexOf("wpajax-pageid-") === -1) {
+                        pageIDArr.splice(i, 1);
                     }
                 }
             }
 
-            console.log(classesArr);
+            console.log(pageNameArr);
+            console.log(pageIDArr);
         }
     };
 
@@ -432,11 +437,6 @@
             log("populateContent: We've added in the content, calling the callback function with the element as an argument");
             callback($content);
         }
-    };
-
-    function matchString(s, classes) {
-        var r = new RegExp("(?:^| )(" + classes + ")(?: |$)"), m = (""+s).match(r);
-        return (m) ? m[1] : null;
     };
 
     // Console log wrapper checks if debugging is on
