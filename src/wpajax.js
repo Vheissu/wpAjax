@@ -131,17 +131,17 @@
     // Have we reached our page limit
     wpAjax.pageLimitReached = function() {
         return (wpvars.max == wpvars.paged);
-    }
+    };
 
     // What is the current page we are on
     wpAjax.getCurrentPageNumber = function() {
         return wpvars.paged;
-    }
+    };
 
     // Get the maximum number of pages in our results
     wpAjax.getMaxPages = function() {
         return wpvars.max;
-    }
+    };
 
     // Load page function
     wpAjax.loadPage = function(url) {
@@ -195,7 +195,7 @@
     wpAjax.fadeOutContent = function(callback) {
         log("fadeOutContent: Animating content element out");
 
-        if (arguments.length == 0) callback = function() {};
+        if (arguments.length === 0) callback = function() {};
 
         $content.animate({opacity:0}, 800, callback);
     };
@@ -204,7 +204,7 @@
     wpAjax.fadeInContent = function(callback) {
         log("fadeInContent: Animating content element in");
 
-        if (arguments.length == 0) callback = function() {};
+        if (arguments.length === 0) callback = function() {};
 
         $content.animate({opacity:1}, 800, callback);
     };
@@ -271,12 +271,8 @@
     wpAjax.processRequest = function(data, url) {
         var _html = $(data);
 
-        if (!o.testMode) {
-            var _content = _html.find(o.content).html();
-            var _wpvars = _html.find("#wpvars").html();
-        } else {
-            var _content = _html.find("body").html();
-        }
+        var _content = _html.find(o.content).html();
+        var _wpvars = _html.find("#wpvars").html();
 
         log("processRequest: Processing the data returned by a successful AJAX call");
 
@@ -330,7 +326,7 @@
                             $body.attr("class", data.match(/body class=\"(.*?)\"/)[1]);
 
                             if (!o.testMode) {
-                                $(document),trigger(completeEvent);
+                                $(document).trigger(completeEvent);
                             }
 
                         });
@@ -347,7 +343,7 @@
                         $body.attr("class", data.match(/body class=\"(.*?)\"/)[1]);
 
                         if (!o.testMode) {
-                            $(document),trigger(completeEvent);
+                            $(document).trigger(completeEvent);
                         }
 
                     });
@@ -363,7 +359,7 @@
                     $("body").attr("class",data.filter("body").attr("class"));
 
                     if (!o.testMode) {
-                        $(document),trigger(completeEvent);
+                        $(document).trigger(completeEvent);
                     }
                 });
             }
@@ -500,4 +496,4 @@
       }
     });
 
-});
+})(jQuery);
