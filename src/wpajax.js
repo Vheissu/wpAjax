@@ -108,6 +108,7 @@
     wpAjax.configure = function(options) {
         log("configure: Setting options for Wpajax");
         $.extend(settings, options);
+        wpAjax.getPluginClassVars();
         return this;
     };
 
@@ -124,14 +125,16 @@
 
     // Get all vars supplied via the body classes
     wpAjax.getPluginClassVars = function() {
-        var classes    = $body.attr("class");
+        var bodyClasses = $body.attr("class");
         var returnObj = {};
 
-        if (classes) {
-            var classesArr = classes.split(" ");
+        if (bodyClasses) {
+            var classesArr = bodyClasses.split(" ");
 
             for (var i = 0, len = classesArr.length; i < len; ++i) {
                 var pointer = classesArr[i];
+
+                console.log(pointer);
             }
         }
     };
@@ -421,6 +424,11 @@
             log("populateContent: We've added in the content, calling the callback function with the element as an argument");
             callback($content);
         }
+    };
+
+    function matchString(s, classes) {
+        var r = new RegExp("(?:^| )(" + classes + ")(?: |$)"), m = (""+s).match(r);
+        return (m) ? m[1] : null;
     };
 
     // Console log wrapper checks if debugging is on
