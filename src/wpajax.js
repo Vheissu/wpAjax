@@ -98,8 +98,11 @@
     });
 
     // Plugin constructor
-    function wpAjax() {
+    function wpAjax(options) {
         var obj = this;
+
+        $.extend(settings, options);
+
         $(function() {
             // These two elements never disappear and are always consistent
             $body    = $("body");
@@ -116,13 +119,6 @@
         log("init: Called the init events function. About to trigger even with slug: "+previousSlug);
         var initLoadEvent = jQuery.Event("wpAjax.pageload-"+previousSlug);
         $(document).trigger(initLoadEvent);
-    };
-
-    // Allows us to configure wpAjax
-    wpAjax.prototype.configure = function(options) {
-        log("configure: Setting options for Wpajax");
-        $.extend(settings, options);
-        return this;
     };
 
     // Return the configuration object
@@ -414,7 +410,7 @@
     }
 
     // Expose our method to the world
-    window.wpAjax = new wpAjax();
+    window.wpAjax = wpAjax;
 
 })(jQuery, window, window.History);
 
