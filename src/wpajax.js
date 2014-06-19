@@ -87,6 +87,9 @@
     var $wpvars  = $("wpvars");
     var $content = $(o.content);
 
+    // Call the init function
+    wpAjax.init();
+
     // Statechange when the URL changes, we roll
     $(window).off("statechange").on("statechange", function() {
         var State = History.getState();
@@ -100,6 +103,12 @@
             log("Event.statechange: User is already on the requested page to load. No request will be made.");
         }
     });
+
+    // Init events like initial page loading functionality
+    wpAjax.init = function() {
+        var pageLoadEvent = jQuery.Event("wpAjax.pageload-"+wpvars.pagename);
+        $(document).trigger(pageLoadEvent);
+    };
 
     // Allows us to configure wpAjax
     wpAjax.configure = function(options) {
