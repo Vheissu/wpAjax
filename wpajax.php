@@ -55,6 +55,7 @@ function wpajax_header() {
 
     echo '<script type="text/javascript">var site_url = "'.site_url().'";</script>';
     echo '<script id="wpvars" type="text/javascript">var wpvars = { max: '.$max.', paged: '.$paged.', pageid: '.$pageid.', pagename: "'.$pagename.'", pagetemplate: "'.get_post_meta( $post->ID, '_wp_page_template', true ).'" };</script>';
+    echo '<script>(function($) { $(document).trigger("wpAjax.pageload-"+wpvars.pagename);  })(jQuery);</script>';
 }
 
 add_action("wp_head", "wpajax_header", 99);
