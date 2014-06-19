@@ -101,6 +101,13 @@
         }
     });
 
+    // Init events like initial page loading functionality
+    function initEvents() {
+        log("initEvents: Called the init events function. About to trigger even with slug: "+previousSlug);
+        var initLoadEvent = jQuery.Event("wpAjax.pageload-"+previousSlug);
+        $(document).trigger(initLoadEvent);
+    }
+
     // Allows us to configure wpAjax
     wpAjax.configure = function(options) {
         log("configure: Setting options for Wpajax");
@@ -398,6 +405,10 @@
 
     // Expose our method to the world
     window.wpAjax = wpAjax;
+
+    $(function() {
+        initEvents();
+    });
 
 })(jQuery, window, window.document, window.History);
 
