@@ -102,10 +102,10 @@
     });
 
     // Init events like initial page loading functionality
-    wpAjax.initEvents = (function() {
+    wpAjax.initEvents = function() {
         var pageLoadEvent = jQuery.Event("wpAjax.pageload-"+wpvars.pagename);
         $(document).trigger(pageLoadEvent);
-    })();
+    };
 
     // Allows us to configure wpAjax
     wpAjax.configure = function(options) {
@@ -401,6 +401,9 @@
             console.log(msg);
         }
     }
+
+    // Call our init function
+    wpAjax.initEvents();
 
     // Expose our method to the world
     window.wpAjax = wpAjax;
