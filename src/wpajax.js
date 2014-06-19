@@ -406,6 +406,10 @@
     // Expose our method to the world
     window.wpAjax = wpAjax;
 
+    $(function() {
+        window.wpAjax.initEvents();
+    });
+
 })(jQuery, window, window.document, window.History);
 
 // Regex selector for jQuery: http://james.padolsey.com/javascript/regex-selector-for-jquery/
