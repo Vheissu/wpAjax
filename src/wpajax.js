@@ -65,8 +65,8 @@
 
     var currentRequest = null,
          previousUrl = "",
-         previousSlug = "",
-         previousID = 0,
+         previousSlug = wpvars.pagename,
+         previousID = wpvars.pageid,
          requestCount = 0;
 
     // Main WP Ajax object
@@ -103,9 +103,9 @@
 
     // Init events like initial page loading functionality
     wpAjax.initEvents = function() {
-        log("initEvents: Called the init events function. About to trigger even with slug: "+wpvars.pagename);
-        var pageLoadEvent = jQuery.Event("wpAjax.pageload-"+wpvars.pagename);
-        $(document).trigger(pageLoadEvent);
+        log("initEvents: Called the init events function. About to trigger even with slug: "+previousSlug);
+        var initLoadEvent = jQuery.Event("wpAjax.pageload-"+previousSlug);
+        $(document).trigger(initLoadEvent);
     };
 
     // Allows us to configure wpAjax
