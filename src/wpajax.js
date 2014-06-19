@@ -69,9 +69,6 @@
          previousID = wpvars.pageid,
          requestCount = 0;
 
-    // Main WP Ajax object
-    var wpAjax = {};
-
     // Options
     var settings = {
         content: '#content',      // This is our container
@@ -82,10 +79,9 @@
     },
     o = settings;
 
-    // These two elements never disappear and are always consistent
-    var $body    = $("body");
-    var $wpvars  = $("wpvars");
-    var $content = $(o.content);
+    var $body = null,
+         $wpvars = null,
+         $content = null;
 
     // Statechange when the URL changes, we roll
     $(window).off("statechange").on("statechange", function() {
@@ -101,33 +97,45 @@
         }
     });
 
+    // Plugin constructor
+    function wpAjax() {
+        $(function() {
+            // These two elements never disappear and are always consistent
+            $body    = $("body");
+            $wpvars  = $("wpvars");
+            $content = $(o.content);
+
+            this.init();
+        });
+    }
+
     // Init events like initial page loading functionality
-    function initEvents() {
-        log("initEvents: Called the init events function. About to trigger even with slug: "+previousSlug);
+    wpAjax.prototype.init = function() {
+        log("init: Called the init events function. About to trigger even with slug: "+previousSlug);
         var initLoadEvent = jQuery.Event("wpAjax.pageload-"+previousSlug);
         $(document).trigger(initLoadEvent);
     }
 
     // Allows us to configure wpAjax
-    wpAjax.configure = function(options) {
+    wpAjax.prototype.configure = function(options) {
         log("configure: Setting options for Wpajax");
         $.extend(settings, options);
         return this;
     };
 
     // Return the configuration object
-    wpAjax.getConfiguration = function() {
+    wpAjax.prototype.getConfiguration = function() {
         return settings;
     };
 
     // Helper function for checking the current URL
-    wpAjax.getCurrentUrl = function() {
+    wpAjax.prototype.getCurrentUrl = function() {
         log("getCurrentUrl: Getting the current browser address URL");
         return window.location.href;
     };
 
     // Trigger a page load
-    wpAjax.trigger = function(url) {
+    wpAjax.prototype.trigger = function(url) {
         log("trigger: Calling History.pushState which will trigger a statechange");
 
         // Store current URL as the previous URL
@@ -148,22 +156,22 @@
     };
 
     // Have we reached our page limit
-    wpAjax.pageLimitReached = function() {
+    wpAjax.prototype.pageLimitReached = function() {
         return (wpvars.max == wpvars.paged);
     };
 
     // What is the current page we are on
-    wpAjax.getCurrentPageNumber = function() {
+    wpAjax.prototype.getCurrentPageNumber = function() {
         return wpvars.paged;
     };
 
     // Get the maximum number of pages in our results
-    wpAjax.getMaxPages = function() {
+    wpAjax.prototype.getMaxPages = function() {
         return wpvars.max;
     };
 
     // Load page function
-    wpAjax.loadPage = function(url) {
+    wpAjax.prototype.loadPage = function(url) {
 
         log("loadPage: No other request is taking place, we are good to go");
 
@@ -206,7 +214,7 @@
     };
 
     // Fade out the content area
-    wpAjax.fadeOutContent = function(callback) {
+    wpAjax.prototype.fadeOutContent = function(callback) {
         log("fadeOutContent: Animating content element out");
 
         if (arguments.length === 0) callback = function() {};
@@ -215,7 +223,7 @@
     };
 
     // Fade in the content area
-    wpAjax.fadeInContent = function(callback) {
+    wpAjax.prototype.fadeInContent = function(callback) {
         log("fadeInContent: Animating content element in");
 
         if (arguments.length === 0) callback = function() {};
@@ -226,7 +234,7 @@
     // Performs an AJAX request to get the page title
     // Also has the advantage of pre-fetching the page
     // for us as well.
-    wpAjax.getTitle = function(url, callback) {
+    wpAjax.prototype.getTitle = function(url, callback) {
         var title = "";
 
         log("getTitle: Calling wpAjax.doRequest now to get the title");
@@ -247,7 +255,7 @@
 
     // Handles performing the page load request
     // Leaves checking for other requests and validity to other functions
-    wpAjax.doRequest = function(url, success, error) {
+    wpAjax.prototype.doRequest = function(url, success, error) {
 
         log("doRequest: About to perform an AJAX call");
 
@@ -282,7 +290,7 @@
 
     // Once our AJAX request is done, this function is called
     // Which allows us to process the response
-    wpAjax.processRequest = function(data, url) {
+    wpAjax.prototype.processRequest = function(data, url) {
         var _html = $(data);
 
         var _content = _html.find(o.content).html();
@@ -383,7 +391,7 @@
 
     // Populates the appropriate content DIV with our
     // load content from the AJAX request (if successful)
-    wpAjax.populateContent = function(content, callback) {
+    wpAjax.prototype.populateContent = function(content, callback) {
         log("populateContent: About to populate the content element with returned HTML");
 
         // Populate the content element
@@ -404,11 +412,7 @@
     }
 
     // Expose our method to the world
-    window.wpAjax = wpAjax;
-
-    $(function() {
-        initEvents();
-    });
+    window.wpAjax = new wpAjax();
 
 })(jQuery, window, window.History);
 
