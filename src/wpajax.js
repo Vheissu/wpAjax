@@ -103,6 +103,7 @@
 
     // Init events like initial page loading functionality
     wpAjax.initEvents = function() {
+        log("initEvents: Called the init events function. About to trigger even with slug: "+wpvars.pagename);
         var pageLoadEvent = jQuery.Event("wpAjax.pageload-"+wpvars.pagename);
         $(document).trigger(pageLoadEvent);
     };
