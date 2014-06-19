@@ -7,7 +7,7 @@
  * @version 1.0
  */
 
-(function($, window, document, History, undefined) {
+(function($, window, History, undefined) {
 
     // Events trigger
 
@@ -410,7 +410,7 @@
         initEvents();
     });
 
-})(jQuery, window, window.document, window.History);
+})(jQuery, window, window.History);
 
 // Regex selector for jQuery: http://james.padolsey.com/javascript/regex-selector-for-jquery/
 (function($, undefined) {
