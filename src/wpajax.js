@@ -403,8 +403,7 @@
         }
     }
 
-    // Call our init function
-    wpAjax.initEvents();
+    $(function() { wpAjax.initEvents(); });
 
     // Expose our method to the world
     window.wpAjax = wpAjax;
