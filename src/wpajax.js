@@ -99,13 +99,15 @@
 
     // Plugin constructor
     function wpAjax() {
+        var obj = this;
         $(function() {
             // These two elements never disappear and are always consistent
             $body    = $("body");
             $wpvars  = $("wpvars");
             $content = $(o.content);
 
-            this.init();
+            // Call the init function when we are ready
+            obj.init();
         });
     }
 
