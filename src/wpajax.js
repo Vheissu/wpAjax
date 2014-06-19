@@ -409,7 +409,7 @@
     $(function() {
         setTimeout(function() {
             wpAjax.initEvents();
-        }, 600);
+        }, 200);
     });
 
 })(jQuery, window, window.History);
