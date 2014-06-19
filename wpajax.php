@@ -57,4 +57,4 @@ function wpajax_header() {
     echo '<script id="wpvars" type="text/javascript">var wpvars = { max: '.$max.', paged: '.$paged.', pageid: '.$pageid.', pagename: "'.$pagename.'", pagetemplate: "'.get_post_meta( $post->ID, '_wp_page_template', true ).'" };</script>';
 }
 
-add_action("wp_header", "wpajax_header", 99);
+add_action("wp_head", "wpajax_header", 99);
