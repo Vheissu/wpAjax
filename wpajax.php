@@ -37,7 +37,7 @@ function wpajax_body_classes( $classes )
 add_filter( 'body_class', 'wpajax_body_classes' );
 
 // Adds in some page variables we can fetch via AJAX requests
-function wpajax_header() {
+function wpajax_footer() {
     global $wp_query, $post;
 
     $pageid   = 0;
@@ -57,4 +57,4 @@ function wpajax_header() {
     echo '<script id="wpvars" type="text/javascript">var wpvars = { max: '.$max.', paged: '.$paged.', pageid: '.$pageid.', pagename: "'.$pagename.'", pagetemplate: "'.get_post_meta( $post->ID, '_wp_page_template', true ).'" };</script>';
 }
 
-add_action("wp_head", "wpajax_header", 99);
+add_action("wp_footer", "wpajax_footer", 99);
