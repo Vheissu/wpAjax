@@ -17,8 +17,6 @@ function wpajax_init() {
     wp_enqueue_script( "wpajax-main-js", plugins_url('/js/wpajax.min.js', __FILE__), array('jquery'), null, true );
 }
 
-add_action("wp_footer", "wpajax_footer", 99);
-
 /**
  * Adds custom classes to the array of body classes.
  */
@@ -39,7 +37,7 @@ function wpajax_body_classes( $classes )
 add_filter( 'body_class', 'wpajax_body_classes' );
 
 // Adds in some page variables we can fetch via AJAX requests
-function wpajax_footer() {
+function wpajax_header() {
     global $wp_query, $post;
 
     $pageid   = 0;
@@ -58,3 +56,5 @@ function wpajax_footer() {
     echo '<script type="text/javascript">var site_url = "'.site_url().'";</script>';
     echo '<script id="wpvars" type="text/javascript">var wpvars = { max: '.$max.', paged: '.$paged.', pageid: '.$pageid.', pagename: "'.$pagename.'", pagetemplate: "'.get_post_meta( $post->ID, '_wp_page_template', true ).'" };</script>';
 }
+
+add_action("wp_header", "wpajax_header", 99);
