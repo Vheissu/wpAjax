@@ -114,7 +114,7 @@
         log("init: Called the init events function. About to trigger even with slug: "+previousSlug);
         var initLoadEvent = jQuery.Event("wpAjax.pageload-"+previousSlug);
         $(document).trigger(initLoadEvent);
-    }
+    };
 
     // Allows us to configure wpAjax
     wpAjax.prototype.configure = function(options) {
