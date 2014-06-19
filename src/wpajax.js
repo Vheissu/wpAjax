@@ -403,12 +403,12 @@
         }
     }
 
-    $(function() { wpAjax.initEvents(); });
-
     // Expose our method to the world
     window.wpAjax = wpAjax;
 
 })(jQuery, window, window.document, window.History);
+
+wpAjax.initEvents();
 
 // Regex selector for jQuery: http://james.padolsey.com/javascript/regex-selector-for-jquery/
 (function($, undefined) {
