@@ -42,6 +42,7 @@ function wpajax_header() {
 
     $pageid   = 0;
     $pagename = "";
+    $pagetemplate = "";
     $max      = $wp_query->max_num_pages;
     $paged    = ( get_query_var('paged') > 1 ) ? get_query_var('paged') : 1;
 
@@ -53,8 +54,13 @@ function wpajax_header() {
         $pagename = $post->post_name;
     }
 
-    echo '<script type="text/javascript">var site_url = "'.site_url().'";</script>';
-    echo '<script id="wpvars" type="text/javascript">var wpvars = { max: '.$max.', paged: '.$paged.', pageid: '.$pageid.', pagename: "'.$pagename.'", pagetemplate: "'.get_post_meta( $post->ID, '_wp_page_template', true ).'" };</script>';
+    if (get_post_meta( $post->ID, '_wp_page_template', true ))
+    {
+        $pagetemplate = get_post_meta( $post->ID, '_wp_page_template', true );
+    }
+
+    echo '<script type="text/javascript">var site_url = "'.get_home_url().'";</script>';
+    echo '<script id="wpvars" type="text/javascript">var wpvars = { max: '.$max.', paged: '.$paged.', pageid: '.$pageid.', pagename: "'.$pagename.'", pagetemplate: "'.$pagetemplate.'" };</script>';
 }
 
 add_action("wp_head", "wpajax_header", 99);
